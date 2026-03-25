@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradingPath — Know Your Path Before You Risk Anything</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#0B6E4F;
+  --green-d:#095c41;
+  --green-m:#1a8a64;
+  --green-l:#e6f4ee;
+  --green-ll:#f2faf6;
+  --aqua:#2EC4B6;
+  --aqua-l:#e4f7f5;
+  --bg:#ffffff;
+  --bg2:#f7faf8;
+  --bg3:#eef4f0;
+  --bg4:#e2ece7;
+  --border:rgba(11,110,79,.09);
+  --border-h:rgba(11,110,79,.2);
+  --text:#0d1a14;
+  --text2:#3d5c4e;
+  --text3:#7a9487;
+  --amber:#c97706;
+  --red:#dc2626;
+  --teal:#2EC4B6;
+  --fh:'Inter',system-ui,sans-serif;
+  --fb:'Inter',system-ui,sans-serif;
+  --fm:'DM Mono',monospace;
+  --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+  --ease-out-quart:cubic-bezier(0.25,1,0.5,1);
+  --ease-in-out-circ:cubic-bezier(0.85,0,0.15,1);
+  --ease-reveal:cubic-bezier(0.22,1,0.36,1);
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:16px;
+  --shadow-sm:0 1px 4px rgba(11,110,79,.06),0 4px 16px rgba(11,110,79,.04);
+  --shadow-md:0 2px 8px rgba(11,110,79,.08),0 8px 32px rgba(11,110,79,.06);
+  --shadow-lg:0 4px 20px rgba(11,110,79,.1),0 16px 48px rgba(11,110,79,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 48px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  animation:navIn .6s var(--ease-out-expo) both;
+}
+@keyframes navIn{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:translateY(0)}}
+.logo{font-family:var(--fh);font-size:17px;font-weight:700;letter-spacing:-.03em;display:flex;align-items:center;gap:10px;color:var(--text)}
+.logo-pulse{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(11,110,79,.4);animation:lpulse 3s var(--ease-in-out-circ) infinite}
+@keyframes lpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.5)}}
+.nav-right{display:flex;align-items:center;gap:28px}
+.nav-link{color:var(--text2);font-size:14px;text-decoration:none;transition:color .25s var(--ease-out-quart);position:relative}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--green);opacity:0;transform:scaleX(0);transform-origin:left;transition:opacity .25s,transform .25s var(--ease-out-expo)}
+.nav-link:hover{color:var(--green)}
+.nav-link:hover::after{opacity:1;transform:scaleX(1)}
+.btn-nav{background:var(--green);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;transition:background .2s,transform .2s var(--ease-out-expo),box-shadow .2s;will-change:transform}
+.btn-nav:hover{background:var(--aqua);transform:translateY(-2px);box-shadow:0 6px 20px rgba(46,196,182,.35)}
+.btn-nav:active{transform:translateY(0) scale(.97);transition-duration:.1s}
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 48px 80px;position:relative;z-index:1;overflow:hidden;background:linear-gradient(180deg,#ffffff 0%,#f2f9f6 100%)}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;will-change:transform}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(11,110,79,.08),transparent 65%);top:-100px;left:50%;transform:translateX(-50%);animation:orbDrift1 18s var(--ease-in-out-circ) infinite alternate}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(46,196,182,.07),transparent 65%);bottom:-80px;right:-40px;animation:orbDrift2 22s var(--ease-in-out-circ) infinite alternate}
+.orb3{width:340px;height:340px;background:radial-gradient(circle,rgba(11,110,79,.05),transparent 65%);bottom:40px;left:-60px;animation:orbDrift3 26s var(--ease-in-out-circ) infinite alternate}
+@keyframes orbDrift1{0%{transform:translateX(-50%) translateY(0)}100%{transform:translateX(-50%) translateY(30px)}}
+@keyframes orbDrift2{0%{transform:translate(0,0)}100%{transform:translate(-20px,-30px)}}
+@keyframes orbDrift3{0%{transform:translate(0,0)}100%{transform:translate(15px,20px)}}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(11,110,79,.2);background:rgba(11,110,79,.06);border-radius:100px;padding:5px 14px 5px 9px;font-size:12.5px;color:var(--green);margin-bottom:36px;letter-spacing:.015em;font-weight:500;opacity:0;animation:heroChip .7s var(--ease-out-expo) .15s forwards}
+@keyframes heroChip{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.chip-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:lpulse 2.8s var(--ease-in-out-circ) infinite}
+.ai-badge{display:none}
+.hero-h1{font-family:var(--fh);font-size:clamp(44px,6.5vw,88px);font-weight:800;line-height:1.0;letter-spacing:-.04em;max-width:820px;margin-bottom:24px;color:var(--text)}
+.hero-h1 .line{display:block;overflow:hidden}
+.hero-h1 .line-inner{display:block;opacity:0;transform:translateY(100%);animation:lineUp .85s var(--ease-out-expo) forwards}
+.hero-h1 .line:nth-child(1) .line-inner{animation-delay:.28s}
+.hero-h1 .line:nth-child(2) .line-inner{animation-delay:.44s}
+@keyframes lineUp{from{opacity:0;transform:translateY(60%)}to{opacity:1;transform:translateY(0)}}
+.hero-h1 .grad{background:linear-gradient(130deg,var(--green) 0%,var(--aqua) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(16px,1.8vw,19px);color:var(--text2);max-width:500px;margin-bottom:44px;font-weight:400;line-height:1.7;opacity:0;animation:fadeUp .8s var(--ease-out-expo) .62s forwards}
+.hero-btns{display:flex;gap:14px;align-items:center;opacity:0;animation:fadeUp .8s var(--ease-out-expo) .75s forwards}
+.hero-stats{display:flex;gap:52px;margin-top:68px;opacity:0;animation:fadeUp .8s var(--ease-out-expo) .92s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hs{text-align:center}
+.hs-v{font-family:var(--fh);font-size:28px;font-weight:700;letter-spacing:-.03em;color:var(--text)}
+.hs-v em{font-style:normal;color:var(--green)}
+.hs-l{font-size:12px;color:var(--text3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase}
+.btn-primary{background:var(--green);color:#fff;border:none;padding:15px 32px;border-radius:10px;font-family:var(--fb);font-size:15px;font-weight:600;cursor:pointer;position:relative;overflow:hidden;transition:transform .3s var(--ease-out-expo),box-shadow .3s,background .25s;will-change:transform}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);transform:translateX(-100%);transition:transform .55s var(--ease-out-expo)}
+.btn-primary:hover{background:var(--aqua);transform:translateY(-2px);box-shadow:0 10px 32px rgba(46,196,182,.38)}
+.btn-primary:hover::after{transform:translateX(100%)}
+.btn-primary:active{transform:translateY(0) scale(.98);transition-duration:.08s}
+.btn-ghost{background:transparent;color:var(--text2);border:1.5px solid var(--border-h);padding:14px 32px;border-radius:10px;font-family:var(--fb);font-size:15px;font-weight:500;cursor:pointer;transition:color .2s,border-color .2s,transform .2s var(--ease-out-expo)}
+.btn-ghost:hover{color:var(--green);border-color:var(--green);transform:translateY(-1px)}
+.btn-ghost:active{transform:scale(.98);transition-duration:.08s}
+section{position:relative;z-index:1}
+.sec{max-width:1160px;margin:0 auto;padding:0 48px}
+.sec-label{font-family:var(--fm);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:16px;font-weight:500}
+.sec-title{font-family:var(--fh);font-size:clamp(30px,4.5vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin-bottom:56px;color:var(--text)}
+.sec-title i{font-style:normal;color:var(--text3)}
+#how{padding:110px 0;background:var(--bg2)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;border:1px solid var(--border)}
+.step{padding:40px 36px;background:var(--bg);transition:background .3s var(--ease-out-quart);position:relative;overflow:hidden}
+.step::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--aqua));transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease-out-expo)}
+.step:hover{background:var(--bg2)}
+.step:hover::before{transform:scaleX(1)}
+.sn{font-family:var(--fm);font-size:11px;color:var(--text3);margin-bottom:22px;letter-spacing:.1em}
+.si{width:44px;height:44px;border-radius:10px;background:var(--green-l);border:1px solid rgba(11,110,79,.15);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:22px;transition:transform .3s var(--ease-out-expo)}
+.step:hover .si{transform:scale(1.06) rotate(-2deg)}
+.st{font-family:var(--fh);font-size:19px;font-weight:600;letter-spacing:-.02em;margin-bottom:10px;color:var(--text)}
+.sd{font-size:14px;color:var(--text2);line-height:1.65}
+#ai-feature{padding:0 0 110px;background:var(--bg2)}
+.ai-feature-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 2px 20px rgba(11,110,79,.06)}
+.af-left{padding:56px 52px;background:linear-gradient(135deg,rgba(11,110,79,.04),rgba(46,196,182,.03))}
+.af-left h2{font-family:var(--fh);font-size:32px;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:20px;color:var(--text)}
+.af-left p{font-size:15px;color:var(--text2);line-height:1.72;margin-bottom:16px}
+.af-right{padding:44px 40px;background:var(--bg);border-left:1px solid var(--border)}
+.af-right-title{font-family:var(--fm);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--text3);margin-bottom:18px}
+.af-feature{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);transition:padding-left .25s var(--ease-out-expo)}
+.af-feature:last-child{border-bottom:none;padding-bottom:0}
+.af-feature:hover{padding-left:5px}
+.af-feature-icon{width:32px;height:32px;border-radius:8px;background:var(--green-l);border:1px solid rgba(11,110,79,.12);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:border-color .25s,transform .25s var(--ease-out-expo)}
+.af-feature:hover .af-feature-icon{border-color:rgba(11,110,79,.3);transform:scale(1.08)}
+.af-feature-text h4{font-size:14px;font-weight:600;margin-bottom:3px;color:var(--text)}
+.af-feature-text p{font-size:13px;color:var(--text2);line-height:1.5}
+#cta-strip{padding:120px 0;text-align:center;position:relative;background:var(--bg)}
+.cs-glow{position:absolute;width:600px;height:280px;background:radial-gradient(ellipse,rgba(11,110,79,.07),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cs-title{font-family:var(--fh);font-size:clamp(32px,5.5vw,60px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:20px;color:var(--text)}
+.cs-sub{font-size:17px;color:var(--text2);margin-bottom:40px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.65}
+footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;background:var(--bg2)}
+.fc{font-size:12px;color:var(--text3)}
+#app{display:none;position:fixed;inset:0;z-index:200;background:rgba(15,26,22,.94);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);overflow-y:auto}
+#app.open{display:block;animation:appFadeIn .3s var(--ease-out-expo) both}
+#app.closing{animation:appFadeOut .22s var(--ease-out-expo) both}
+@keyframes appFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes appFadeOut{from{opacity:1}to{opacity:0}}
+.app-wrap{min-height:100vh;display:grid;grid-template-columns:420px 1fr;grid-template-rows:58px 1fr}
+.topbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(15,26,22,.96)}
+.tb-logo{font-family:var(--fh);font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;color:#e8f5f0}
+.tb-right{display:flex;align-items:center;gap:12px}
+.tb-model{font-family:var(--fm);font-size:11px;color:rgba(232,245,240,.4);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:4px 10px;border-radius:6px;letter-spacing:.05em;transition:color .4s}
+.btn-close{background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(232,245,240,.6);padding:5px 14px;border-radius:6px;cursor:pointer;font-family:var(--fb);font-size:13px;transition:border-color .2s,color .2s,transform .2s var(--ease-out-expo)}
+.btn-close:hover{border-color:rgba(255,255,255,.24);color:#e8f5f0;transform:translateX(-2px)}
+.panel-left{border-right:1px solid rgba(255,255,255,.07);padding:40px 32px;background:rgba(11,26,19,.97);overflow-y:auto}
+.pl-title{font-family:var(--fh);font-size:22px;font-weight:700;letter-spacing:-.03em;margin-bottom:6px;color:#e8f5f0}
+.pl-sub{font-size:13px;color:rgba(232,245,240,.45);margin-bottom:36px}
+.fg{margin-bottom:26px}
+.fl{display:block;font-size:11px;font-weight:600;color:rgba(232,245,240,.4);text-transform:uppercase;letter-spacing:.09em;margin-bottom:9px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{padding:8px 15px;border-radius:100px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:rgba(232,245,240,.55);font-size:13px;cursor:pointer;user-select:none;white-space:nowrap;transition:border-color .2s,color .2s,background .2s,transform .18s var(--ease-out-expo);will-change:transform}
+.pill:hover{border-color:rgba(46,196,182,.4);color:#e8f5f0;transform:translateY(-1px)}
+.pill:active{transform:scale(.96);transition-duration:.07s}
+.pill.on{border-color:rgba(46,196,182,.55);background:rgba(46,196,182,.12);color:#7de8e0;box-shadow:0 0 0 1px rgba(46,196,182,.12)}
+.budget-val{font-family:var(--fm);font-size:32px;font-weight:500;letter-spacing:-.03em;margin-bottom:12px;color:#e8f5f0;transition:color .2s}
+.budget-val span{font-size:17px;color:rgba(232,245,240,.35)}
+.slider{width:100%;-webkit-appearance:none;appearance:none;height:3px;border-radius:100px;background:rgba(255,255,255,.1);outline:none;cursor:pointer}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--aqua);box-shadow:0 0 10px rgba(46,196,182,.4);cursor:pointer;transition:transform .18s var(--ease-out-expo),box-shadow .18s}
+.slider::-webkit-slider-thumb:hover{transform:scale(1.22);box-shadow:0 0 18px rgba(46,196,182,.6)}
+.btn-analyze{width:100%;padding:16px;background:linear-gradient(135deg,var(--green),var(--aqua));color:#fff;border:none;border-radius:10px;font-family:var(--fh);font-size:15px;font-weight:600;letter-spacing:-.01em;cursor:pointer;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden;transition:transform .28s var(--ease-out-expo),box-shadow .28s,opacity .2s;will-change:transform}
+.btn-analyze::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);transform:translateX(-100%);transition:transform .65s var(--ease-out-expo)}
+.btn-analyze:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 30px rgba(46,196,182,.35)}
+.btn-analyze:hover:not(:disabled)::before{transform:translateX(100%)}
+.btn-analyze:active:not(:disabled){transform:scale(.98) translateY(0);transition-duration:.07s}
+.btn-analyze:disabled{opacity:.38;cursor:not-allowed;transform:none;box-shadow:none}
+.panel-right{padding:40px 36px;overflow-y:auto;background:#0d1f18}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;text-align:center;padding:40px;opacity:0;animation:fadeUp .5s var(--ease-out-expo) .1s forwards}
+.empty-ico{width:68px;height:68px;border-radius:16px;background:rgba(46,196,182,.08);border:1px solid rgba(46,196,182,.18);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:22px;animation:emptyFloat 4s var(--ease-in-out-circ) infinite alternate}
+@keyframes emptyFloat{0%{transform:translateY(0)}100%{transform:translateY(-5px)}}
+.empty-t{font-family:var(--fh);font-size:19px;font-weight:600;margin-bottom:9px;letter-spacing:-.02em;color:#e8f5f0}
+.empty-s{font-size:13.5px;color:rgba(232,245,240,.4);max-width:260px;line-height:1.6}
+.loading{text-align:center;padding:60px 32px}
+.lorb{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(46,196,182,.7),rgba(11,110,79,.35) 50%,transparent 80%);margin:0 auto 16px;position:relative;animation:orbCore 2.2s var(--ease-in-out-circ) infinite}
+.lorb-ring{position:absolute;inset:-10px;border-radius:50%;background:conic-gradient(from 0deg,rgba(46,196,182,.7) 0%,rgba(11,110,79,.4) 30%,transparent 55%,rgba(46,196,182,.7) 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1.5px),#fff calc(100% - 1.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 1.5px),#fff calc(100% - 1.5px));animation:ringRotate 2s linear infinite}
+.lorb::before{content:'';position:absolute;inset:-18px;border-radius:50%;border:1px solid rgba(46,196,182,.15);animation:orbRing1 2.2s var(--ease-in-out-circ) infinite}
+.lorb::after{content:'';position:absolute;inset:-30px;border-radius:50%;border:1px solid rgba(46,196,182,.07);animation:orbRing2 2.2s var(--ease-in-out-circ) .3s infinite}
+@keyframes orbCore{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.07);opacity:.7}}
+@keyframes ringRotate{to{transform:rotate(360deg)}}
+@keyframes orbRing1{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.25);opacity:0}}
+@keyframes orbRing2{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.4);opacity:0}}
+.loading-shimmer{position:relative;overflow:hidden;background:rgba(255,255,255,.07);border-radius:8px;margin:0 auto 24px;width:100%;max-width:280px;height:3px}
+.loading-shimmer::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(46,196,182,.5) 50%,transparent 100%);animation:shimmerSweep 1.7s var(--ease-in-out-circ) infinite}
+@keyframes shimmerSweep{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.lt{font-family:var(--fh);font-size:20px;font-weight:600;margin-bottom:8px;letter-spacing:-.02em;color:#e8f5f0}
+.ls-sub{font-size:13.5px;color:rgba(232,245,240,.4);margin-bottom:26px}
+.lsteps{display:flex;flex-direction:column;gap:7px;max-width:290px;margin:0 auto}
+.lstep{display:flex;align-items:center;gap:11px;padding:10px 16px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid transparent;font-size:12.5px;color:rgba(232,245,240,.3);text-align:left;opacity:0;transform:translateX(-7px);transition:opacity .4s var(--ease-out-expo),transform .4s var(--ease-out-expo),color .25s,border-color .25s,background .25s}
+.lstep.on{opacity:1;transform:translateX(0);color:rgba(232,245,240,.7);border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.05)}
+.lstep.done{color:var(--aqua);border-color:rgba(46,196,182,.2);background:rgba(46,196,182,.04)}
+.lstep-ico{width:16px;height:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px}
+.spin{width:11px;height:11px;border:1.5px solid rgba(46,196,182,.2);border-top-color:var(--aqua);border-radius:50%;animation:sp .6s linear infinite;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ai-typing{font-size:11px;font-family:var(--fm);color:rgba(232,245,240,.25);margin-top:16px;min-height:18px;letter-spacing:.02em}
+.cursor{display:inline-block;width:1.5px;height:11px;background:var(--aqua);margin-left:2px;animation:blink .9s var(--ease-in-out-circ) infinite;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.r-header{margin-bottom:32px;opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease-out-expo),transform .45s var(--ease-out-expo)}
+.r-header.vis{opacity:1;transform:translateY(0)}
+.r-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:100px;font-family:var(--fm);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;font-weight:500}
+.r-title{font-family:var(--fh);font-size:26px;font-weight:700;letter-spacing:-.03em;margin-bottom:9px;color:#e8f5f0;line-height:1.18}
+.r-sub{font-size:13.5px;color:rgba(232,245,240,.55);line-height:1.7;max-width:520px}
+.r-source{display:inline-flex;align-items:center;gap:6px;font-family:var(--fm);font-size:10px;letter-spacing:.08em;color:rgba(232,245,240,.3);margin-top:12px;padding:3px 10px;border-radius:5px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03)}
+.r-source-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.cards{display:flex;flex-direction:column;gap:10px}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px 26px;position:relative;overflow:hidden;opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease-reveal),transform .5s var(--ease-reveal),border-color .25s,box-shadow .3s;will-change:opacity,transform}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(46,196,182,.28),transparent);opacity:0;transition:opacity .3s}
+.card.vis{opacity:1;transform:translateY(0)}
+.card:hover{border-color:rgba(255,255,255,.13);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.28)}
+.card:hover::before{opacity:1}
+.cta-card{background:linear-gradient(135deg,rgba(11,110,79,.18),rgba(46,196,182,.09));border:1px solid rgba(46,196,182,.24);box-shadow:0 0 28px rgba(46,196,182,.06)}
+.cta-card:hover{border-color:rgba(46,196,182,.38);box-shadow:0 12px 40px rgba(46,196,182,.15)}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-family:var(--fm);color:rgba(232,245,240,.5);flex-shrink:0;transition:transform .25s var(--ease-out-expo)}
+.card:hover .card-ico{transform:scale(1.1)}
+.card-tag{font-family:var(--fm);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,245,240,.22);font-weight:500}
+.card-title{font-family:var(--fh);font-size:15px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px;color:#ddeee6;line-height:1.25}
+.cta-card .card-title{font-size:20px;color:#e8f5f0}
+.card-body{font-size:13.5px;color:rgba(232,245,240,.52);line-height:1.78}
+.card-body-lead{display:block;color:rgba(232,245,240,.84);font-weight:500;margin-bottom:8px;font-size:13.5px;line-height:1.65;letter-spacing:-.01em}
+.card-list{margin-top:12px;display:flex;flex-direction:column;gap:9px}
+.cli{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:rgba(232,245,240,.52);opacity:0;transform:translateX(-5px);transition:opacity .38s var(--ease-out-expo),transform .38s var(--ease-out-expo);line-height:1.65}
+.cli.vis{opacity:1;transform:translateX(0)}
+.cld{width:5px;height:5px;border-radius:50%;background:var(--aqua);flex-shrink:0;margin-top:8px;opacity:.7}
+.cta-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.cta-main{background:linear-gradient(135deg,var(--green),var(--aqua));color:#fff;border:none;padding:12px 24px;border-radius:9px;font-family:var(--fh);font-size:14px;font-weight:600;cursor:pointer;letter-spacing:-.01em;text-decoration:none;display:inline-block;position:relative;overflow:hidden;transition:transform .28s var(--ease-out-expo),box-shadow .28s}
+.cta-main::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.16) 50%,transparent 70%);transform:translateX(-100%);transition:transform .55s var(--ease-out-expo)}
+.cta-main:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 8px 24px rgba(46,196,182,.42)}
+.cta-main:hover::after{transform:translateX(100%)}
+.cta-main:active{transform:scale(.97);transition-duration:.07s}
+.cta-sec{background:transparent;color:rgba(232,245,240,.5);border:1px solid rgba(255,255,255,.13);padding:12px 24px;border-radius:9px;font-family:var(--fb);font-size:14px;cursor:pointer;text-decoration:none;display:inline-block;transition:color .2s,border-color .2s,transform .18s var(--ease-out-expo)}
+.cta-sec:hover{color:rgba(232,245,240,.85);border-color:rgba(255,255,255,.25);transform:translateY(-1px)}
+.cta-sec:active{transform:scale(.97)}
+.banner{display:flex;align-items:flex-start;gap:11px;border-radius:9px;padding:12px 16px;margin-bottom:16px;font-size:12.5px;color:rgba(232,245,240,.5);line-height:1.55;opacity:0;animation:fadeUp .45s var(--ease-out-expo) forwards}
+.banner-mock{background:rgba(201,119,6,.07);border:1px solid rgba(201,119,6,.2)}
+.banner-info{background:rgba(46,196,182,.05);border:1px solid rgba(46,196,182,.16)}
+.banner-ico{font-size:14px;flex-shrink:0;margin-top:1px}
+.cta-reasoning{background:rgba(46,196,182,.05);border:1px solid rgba(46,196,182,.13);border-radius:9px;padding:14px 18px;margin-bottom:18px;font-size:13px;color:rgba(232,245,240,.48);line-height:1.7;position:relative;overflow:hidden}
+.cta-reasoning::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--green),var(--aqua));border-radius:2px 0 0 2px}
+.cta-reasoning-label{display:block;font-family:var(--fm);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua);margin-bottom:7px;opacity:.8}
+.rev{opacity:0;transform:translateY(20px);transition:opacity .65s var(--ease-reveal),transform .65s var(--ease-reveal)}
+.rev.vis{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.07s}.rd2{transition-delay:.14s}.rd3{transition-delay:.21s}
+@media(max-width:1060px){.app-wrap{grid-template-columns:1fr}.panel-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}.ai-feature-inner{grid-template-columns:1fr}.af-right{border-left:none;border-top:1px solid var(--border)}.steps{grid-template-columns:1fr}}
+@media(max-width:768px){nav{padding:14px 20px}.nav-right .nav-link{display:none}#hero{padding:110px 20px 56px}.sec{padding:0 20px}.hero-stats{gap:24px}footer{padding:24px 20px;flex-direction:column;gap:10px;text-align:center}.panel-left,.panel-right{padding:28px 20px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><div class="logo-pulse"></div>TradingPath</div>
+  <div class="nav-right">
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#ai-feature" class="nav-link">What we assess</a>
+    <button class="btn-nav" onclick="openApp()">Get My Path →</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-orb orb1"></div><div class="hero-orb orb2"></div><div class="hero-orb orb3"></div>
+  <div class="hero-chip"><div class="chip-dot"></div>Specific to your capital — not generic advice</div>
+  <h1 class="hero-h1">
+    <span class="line"><span class="line-inner">Know where to start</span></span>
+    <span class="line"><span class="line-inner"><span class="grad">before you risk anything.</span></span></span>
+  </h1>
+  <p class="hero-sub">Five inputs about your real situation. A structured recommendation with a capital plan, risk framework, and a 30-day action plan — matched to your actual constraints.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="openApp()">Get My Assessment →</button>
+    <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See how it works</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-v">4<em> paths</em></div><div class="hs-l">Matched to your constraints</div></div>
+    <div class="hs"><div class="hs-v"><em>Free</em></div><div class="hs-l">No account needed</div></div>
+    <div class="hs"><div class="hs-v">60<em>s</em></div><div class="hs-l">Full plan, not a quiz</div></div>
+  </div>
+</section>
+
+<section id="how" style="padding:112px 0">
+  <div class="sec">
+    <div class="sec-label rev">How it works</div>
+    <h2 class="sec-title rev rd1">Your constraints in.<br><i>A concrete plan out.</i></h2>
+    <div class="steps">
+      <div class="step rev rd1"><div class="sn">01</div><div class="si">📋</div><div class="st">Five specific inputs</div><p class="sd">Budget, experience, risk tolerance, primary goal, and weekly availability. Not a personality quiz — five variables that determine which trading approaches are viable for you and which aren't.</p></div>
+      <div class="step rev rd2"><div class="sn">02</div><div class="si">⚙️</div><div class="st">Structured path matching</div><p class="sd">Your inputs run through a decision framework that maps budget thresholds, time constraints, and experience level to one of four distinct paths. The output is specific, not categorical.</p></div>
+      <div class="step rev rd3"><div class="sn">03</div><div class="si">📄</div><div class="st">Six-section advisory report</div><p class="sd">Trader profile, recommended approach, capital structure, risk reality, a 30-day action plan, and your first concrete step — all referenced to your real numbers, not generic percentages.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="ai-feature" style="padding:0 0 112px">
+  <div class="sec">
+    <div class="sec-label rev">What we assess</div>
+    <div class="ai-feature-inner rev rd1">
+      <div class="af-left">
+        <h2>Your numbers.<br>Not a general template.</h2>
+        <p>Most tools assign you to a broad category — "moderate risk" or "growth-oriented" — and stop there. TradingPath runs four variables through a structured framework and returns one specific recommendation, with every capital figure stated in actual dollars.</p>
+        <p>A $300 budget routes you differently than a $3,000 budget. Limited hours per week rules out strategies that require active position management. These aren't preferences — they're hard constraints, and the recommendation reflects them.</p>
+      </div>
+      <div class="af-right">
+        <div class="af-right-title">Variables assessed</div>
+        <div class="af-feature"><div class="af-feature-icon">💰</div><div class="af-feature-text"><h4>Capital threshold</h4><p>Determines which strategies are financially viable and which carry risks that aren't justified at that account size.</p></div></div>
+        <div class="af-feature"><div class="af-feature-icon">📊</div><div class="af-feature-text"><h4>Experience level</h4><p>Calibrates recommendations to what you can actually execute — not what you plan to learn.</p></div></div>
+        <div class="af-feature"><div class="af-feature-icon">🕐</div><div class="af-feature-text"><h4>Weekly time budget</h4><p>Active trading with under 5 hours per week is structurally unprofitable. Your availability routes you to strategies you can manage.</p></div></div>
+        <div class="af-feature"><div class="af-feature-icon">🛡️</div><div class="af-feature-text"><h4>Most likely failure mode</h4><p>What traders at your stage most commonly get wrong — and the rule that prevents it before it costs real money.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta-strip" style="padding:128px 0;text-align:center;position:relative">
+  <div class="cs-glow"></div>
+  <div class="sec" style="position:relative;z-index:1">
+    <div class="sec-label rev" style="text-align:center">Free assessment</div>
+    <h2 class="cs-title rev rd1">Understand your position<br>before you trade it.</h2>
+    <p class="cs-sub rev rd2">Five questions. One honest recommendation. No account, no email, no obligation.</p>
+    <button class="btn-primary rev rd3" style="font-size:16px;padding:16px 40px" onclick="openApp()">Get My Assessment →</button>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">TradingPath</div>
+  <div class="fc">© 2025 TradingPath · Not financial advice · Capital at risk · Recommendations are for guidance only</div>
+</footer>
+
+<!-- APP MODAL -->
+<div id="app">
+  <div class="app-wrap">
+    <div class="topbar">
+      <div class="tb-logo"><div class="logo-pulse"></div>TradingPath</div>
+      <div class="tb-right">
+        <div class="tb-model" id="tb-model">analysis ready</div>
+        <button class="btn-close" onclick="closeApp()">← Back</button>
+      </div>
+    </div>
+    <div class="panel-left">
+      <h2 class="pl-title">Your profile</h2>
+      <p class="pl-sub">Five inputs. We match you to the right path and build a plan around your actual constraints.</p>
+      <div class="fg">
+        <label class="fl">Starting capital</label>
+        <div class="budget-val" id="bv"><span>$</span>500</div>
+        <input type="range" class="slider" id="bslider" min="50" max="10000" step="50" value="500" oninput="setBudget(this.value)">
+        <div style="display:flex;justify-content:space-between;margin-top:7px;font-size:11.5px;color:rgba(232,245,240,.28)"><span>$50</span><span>$10,000</span></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Trading experience</label>
+        <div class="pills" id="pg-exp">
+          <div class="pill" onclick="pick('exp',this,'zero')">No experience</div>
+          <div class="pill on" onclick="pick('exp',this,'basic')">Some basics</div>
+          <div class="pill" onclick="pick('exp',this,'advanced')">Experienced</div>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Risk tolerance</label>
+        <div class="pills" id="pg-risk">
+          <div class="pill on" onclick="pick('risk',this,'low')">Capital first</div>
+          <div class="pill" onclick="pick('risk',this,'medium')">Balanced</div>
+          <div class="pill" onclick="pick('risk',this,'high')">Growth-focused</div>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Primary objective</label>
+        <div class="pills" id="pg-goal">
+          <div class="pill on" onclick="pick('goal',this,'learning')">Learning first</div>
+          <div class="pill" onclick="pick('goal',this,'side')">Side income</div>
+          <div class="pill" onclick="pick('goal',this,'fulltime')">Full-time trading</div>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Time available per week</label>
+        <div class="pills" id="pg-time">
+          <div class="pill" onclick="pick('time',this,'low')">1–3 hrs</div>
+          <div class="pill on" onclick="pick('time',this,'medium')">4–10 hrs</div>
+          <div class="pill" onclick="pick('time',this,'high')">10+ hrs</div>
+        </div>
+      </div>
+      <button class="btn-analyze" id="abtn" onclick="analyze()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Run Assessment
+      </button>
+    </div>
+    <div class="panel-right" id="rp">
+      <div class="empty" id="es">
+        <div class="empty-ico">◎</div>
+        <h3 class="empty-t">Ready to assess</h3>
+        <p class="empty-s">Complete your profile on the left. Your full trading plan will appear here — referenced to your real numbers.</p>
+      </div>
+      <div id="ls" style="display:none">
+        <div class="loading">
+          <div class="lorb"><div class="lorb-ring"></div></div>
+          <div class="loading-shimmer"></div>
+          <div class="lt">Building your assessment…</div>
+          <p class="ls-sub">Matching your inputs to the right trading path</p>
+          <div class="lsteps">
+            <div class="lstep" id="l1"><div class="lstep-ico">◦</div>Reading your capital and experience</div>
+            <div class="lstep" id="l2"><div class="lstep-ico">◦</div>Selecting the right path</div>
+            <div class="lstep" id="l3"><div class="lstep-ico">◦</div>Structuring your capital plan</div>
+            <div class="lstep" id="l4"><div class="lstep-ico">◦</div>Writing your 30-day plan</div>
+            <div class="lstep" id="l5"><div class="lstep-ico">◦</div>Finalising your recommendation</div>
+          </div>
+          <div class="ai-typing" id="at"></div>
+        </div>
+      </div>
+      <div id="rs" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────────
+const S={budget:500,exp:'basic',risk:'low',goal:'learning',time:'medium'};
+function openApp(){
+  const el=document.getElementById('app');
+  el.classList.remove('closing');
+  el.style.display='block';
+  el.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeApp(){
+  const el=document.getElementById('app');
+  el.classList.remove('open');
+  el.classList.add('closing');
+  setTimeout(()=>{
+    el.style.display='none';
+    el.classList.remove('closing');
+    document.body.style.overflow='';
+  },260);
+}
+function setBudget(v){S.budget=parseInt(v);document.getElementById('bv').innerHTML=`<span>$</span>${parseInt(v).toLocaleString()}`;}
+function pick(key,el,val){S[key]=val;el.closest('.pills').querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
+
+// ─────────────────────────────────────────────────
+//  PATH LOGIC (deterministic — used as ctaType fallback)
+// ─────────────────────────────────────────────────
+function getPath(){
+  const{budget,exp,risk,time}=S;
+  if(budget<300&&exp==='zero') return 'demo';
+  if(budget>=300&&budget<=1500&&exp!=='zero') return 'real';
+  if(budget>=1500&&time==='low') return 'copy';
+  if(budget>=1500&&risk==='high'&&exp==='advanced') return 'advanced';
+  if(exp==='zero'||budget<300) return 'demo';
+  if(budget<1500) return 'real';
+  return 'copy';
+}
+
+// ─────────────────────────────────────────────────
+//  SYSTEM PROMPT — Base (JSON contract + shared rules)
+// ─────────────────────────────────────────────────
+const SYSTEM_BASE=`You are a senior trading strategist and risk-focused onboarding advisor.
+Your job is to deliver a precise, commercial-grade analysis of a trader's profile.
+
+You are NOT a generic assistant. You are a specialist.
+Every recommendation must be specific, decisive, and calibrated to the exact inputs provided.
+Never use filler phrases like "it depends", "be disciplined", or "start small" without immediately following them with a concrete instruction.
+
+ANTI-GENERIC RULES — violating these makes the output worthless:
+- Never promise returns. Never imply trading is easy.
+- Never give advice that could apply to any trader — every sentence must be specific to this profile.
+- Every capital figure must reference the user's exact budget amount.
+- Every risk figure must be a real percentage or dollar amount.
+- The tone is professional and direct — like a private advisor, not a blog post.
+
+CRITICAL — JSON OUTPUT CONTRACT:
+Respond with ONLY a single raw JSON object. Absolutely no other text.
+- NO markdown fences, NO backticks, NO code blocks
+- NO text before the opening { or after the closing }
+- NO JavaScript comments (// or /* */)
+- NO trailing commas after the last element in any array or object
+- All string values must be single-line — no literal newline characters inside quoted strings
+- Escape internal double-quotes with backslash
+- The raw response string must pass JSON.parse() with zero pre-processing
+
+REQUIRED SCHEMA — all 7 keys, exact types:
+{
+  "profile":         "<2 sentences: who this trader is, what their binding constraint is, and what they must avoid>",
+  "recommendedPath": "<3 sentences: the specific path, the strategic reason it fits this exact profile, and what alternative paths were ruled out and why>",
+  "capitalPlan":     "<3 sentences: exact capital split using their real budget number, per-trade risk amount in dollars, and cash reserve rule>",
+  "riskReality":     "<3 sentences: the specific failure mode most likely for this profile, the emotional trigger to watch for, and the circuit-breaker rule to install>",
+  "plan30Days":      ["<Days 1–7: specific actions>","<Days 8–14: specific actions>","<Days 15–21: specific actions>","<Days 22–30: specific actions>","<Day 30 review: what to measure and decide>"],
+  "nextStep":        "<2 sentences: state the recommended action with clarity and confidence — use 'based on your profile' framing — then name the one thing the user must NOT do before this step is done>",
+  "ctaType":         "<exactly one of: demo | real | copy | advanced>"
+}
+
+ROUTING LOGIC — determine ctaType first, then let it govern the entire analysis tone:
+- budget < $300 AND experience = zero → "demo"
+- budget $300–$1500 AND experience = basic or advanced → "real"
+- budget > $1500 AND time = low → "copy"
+- budget > $1500 AND risk = high AND experience = advanced → "advanced"
+- all other cases with budget > $1500 → "copy"
+- all other cases → "real"`;
+
+// ─────────────────────────────────────────────────
+//  PATH-SPECIFIC PROMPT EXTENSIONS
+//  Injected after SYSTEM_BASE depending on routing.
+//  Each one tunes tone, priorities, and framing.
+// ─────────────────────────────────────────────────
+const PATH_PROMPTS={
+  demo:`
+PATH CONTEXT — BEGINNER (Demo First):
+This user has insufficient capital or experience for live trading. Your analysis must make the case for demo trading not as a consolation prize, but as the strategically correct decision.
+
+Tone: Direct, encouraging without being patronizing. No hype.
+
+Profile section must:
+- Name the specific constraint (budget, experience, or both)
+- State clearly what outcome live trading would produce at this stage
+- Identify what skill gap must close before live trading is rational
+
+recommendedPath must:
+- Explain demo trading as a professional discipline tool, not a toy
+- Name the specific timeframe and currency pairs to focus on (EUR/USD, GBP/USD on H4)
+- State the minimum proficiency threshold before graduating to live (3 consecutive profitable demo weeks)
+- Explicitly rule out live trading and give the exact reason
+
+capitalPlan must:
+- Keep the user's real budget in savings — zero deployment to trading now
+- Set up demo with $10,000 virtual capital
+- Specify the exact live starting amount when ready: $100–$200 max
+- Give the per-trade risk in dollar terms (1% of $150 = $1.50)
+
+riskReality must:
+- Cite the 70–80% first-year retail loss rate
+- Name the specific reason: going live before an edge is established
+- Explain that demo removes the financial risk but not the emotional risk of a bad habit
+
+plan30Days must be day-range specific actions, not vague weeks. Each entry must name a concrete deliverable.
+
+nextStep must direct to the demo account with confidence: "Based on your profile, opening a demo account is the most efficient first step — it gives you live market access at zero cost while you build the edge that makes real capital productive." Never suggest going live first.`,
+
+  real:`
+PATH CONTEXT — STARTER (Live, Controlled):
+This user has real capital and foundational knowledge. They are ready to trade live, but the primary risk is overtrading and poor risk sizing, not lack of skill. Your analysis must install discipline before enthusiasm.
+
+Tone: Authoritative, structured. Like a trading floor supervisor giving a new hire their rules.
+
+Profile section must:
+- Identify their specific experience level and what it implies about their readiness
+- Name their single biggest risk factor (likely: psychology, over-trading, or position sizing)
+- State their realistic 6-month objective (skill compounding, not profit generation)
+
+recommendedPath must:
+- Name the specific trading style: manual forex on H4 and daily timeframes
+- Specify the exact trade frequency cap: 2–4 setups per week maximum
+- Name the 2 currency pairs to focus on: EUR/USD and one of GBP/USD or USD/JPY
+- Rule out day trading and scalping — explain why at this stage it destroys edge
+
+capitalPlan must:
+- Give a specific starting deposit range based on their actual budget
+- State per-trade risk in dollars (1–2% of exact starting balance)
+- Specify the cash reserve to keep outside the account
+- Name the daily loss stop in dollars
+
+riskReality must:
+- Name the psychology gap between demo and live trading
+- Identify the two most common mistakes at starter level: moving stops and averaging down
+- State the hard rule that addresses both
+
+plan30Days must have concrete daily-range actions with measurable outputs — a journal, a review, a decision.
+
+nextStep must frame account opening as the logical implementation of the plan they've just received: "Based on your profile, opening your real account today is the most direct path to building a live edge — the analysis above is your framework, and this is where it becomes actionable." Do not suggest demo as an alternative.`,
+
+  copy:`
+PATH CONTEXT — COPY TRADING (Delegated Execution):
+This user has meaningful capital but limited time. Active discretionary trading is the wrong path for them — not because they lack ability, but because time-constrained active trading reliably produces worse outcomes than disciplined copy allocation. Your analysis must make this case compellingly.
+
+Tone: Analytical, commercial. Like a private wealth advisor explaining an allocation decision.
+
+Profile section must:
+- Lead with their binding constraint: time
+- State explicitly why active trading with their time budget produces adverse selection (they will only be able to act on setups they have already partially missed, and will not be able to monitor open positions)
+- Position copy trading as a deliberate capital allocation strategy, not a lazy option
+
+recommendedPath must:
+- Contrast copy trading vs. active trading outcomes for a time-constrained user
+- Specify the diversification strategy: 2–3 traders, different styles
+- Name the selection criteria the user must use: 12+ months verified, drawdown <20%, minimum 500 trades
+- Explain why starting on a platform with transparent verified statistics matters
+
+capitalPlan must:
+- Give the exact three-way capital split with real dollar amounts from their budget
+- Conservative: 40%, Balanced: 40%, Active: 20% — give each in dollars
+- Name the cash reserve: 10–15% outside the copy allocation
+- State the per-trader drawdown stop: 20% triggers exit, no exceptions
+
+riskReality must:
+- Name the primary failure mode: performance chasing — selecting traders on peak-month returns
+- Give the analytical instruction: compare worst month, not best month
+- State the rebalancing rule: review every 30 days, replace any trader who has drifted from their documented strategy
+
+plan30Days must be structured in day-range segments with specific research and execution checkpoints.
+
+nextStep must position copy trading account opening as a capital allocation decision, not an account opening: "Based on your profile, this is the most efficient path to market participation available to you — the recommended setup lets you access professional-level execution without the screen-time requirement that active trading demands." Make it feel like a strategic deployment, not a product sign-up.`,
+
+  advanced:`
+PATH CONTEXT — ADVANCED (Systematic Execution):
+This user has significant capital, documented experience, and high risk tolerance. They do not need onboarding — they need a calibrated framework for systematic execution at scale. Generic advice will be ignored and rightly so.
+
+Tone: Peer-level. Technical and direct. No softening, no hand-holding.
+
+Profile section must:
+- Identify what distinguishes this trader from the starter profile (capital, experience, risk appetite)
+- Name the primary risk at this level: overconfidence and edge expiry
+- State what separates consistent advanced traders from experienced retail traders who plateau
+
+recommendedPath must:
+- Specify the execution framework: multi-timeframe analysis, 4–6 instruments, systematic entries with written invalidation rules
+- Name the two timeframe combination: daily for bias, H4 for entry
+- State the position management requirement: automated exits only — no manual override on take-profit
+- Rule out high-frequency approaches for this capital level; explain the reason
+
+capitalPlan must:
+- Give per-trade risk in exact dollar terms (2–3% of their actual budget)
+- State maximum concurrent open exposure (6% of account) in dollars
+- Specify the daily loss stop in dollars
+- Name the scaling rule: only increase size after 50-trade validated expectancy review
+
+riskReality must:
+- Name the edge expiry risk and the 50-trade review trigger
+- Identify the oversize risk: traders at this level often risk too much precisely because they can
+- State the psychological circuit-breaker: if a loss feels personal rather than statistical, position size is too large
+
+plan30Days must be specific to advanced execution: backtesting validation, live execution with rules documentation, expectancy review. No beginner content.
+
+nextStep must frame setup as deploying a documented system with precision: "Based on your profile, the advanced setup gives you the full instrument suite and leverage structure your strategy requires — open your account and write your trading rules document before placing any position." Convey that this is a professional-grade decision, not a beginner sign-up.`
+};
+
+// ─────────────────────────────────────────────────
+//  BUILD PROMPT — selects path-specific extension
+// ─────────────────────────────────────────────────
+function buildPrompt(){
+  const path=getPath();
+  return SYSTEM_BASE+(PATH_PROMPTS[path]||'');
+}
+
+function buildUserMsg(){
+  const path=getPath();
+  const goalLabel={learning:'skill development and capital preservation',side:'generating consistent side income',fulltime:'transitioning to full-time trading'}[S.goal]||S.goal;
+  const timeLabel={low:'1–3 hours per week',medium:'4–10 hours per week',high:'10+ hours per week'}[S.time]||S.time;
+  const expLabel={zero:'no prior trading experience',basic:'foundational trading knowledge with some live or demo experience',advanced:'documented trading experience across multiple market conditions'}[S.exp]||S.exp;
+  const riskLabel={low:'capital preservation — avoiding significant drawdown is the primary objective',medium:'balanced growth with controlled drawdown tolerance',high:'maximising return potential with full acceptance of high drawdown risk'}[S.risk]||S.risk;
+
+  return `TRADER PROFILE — analyze and return JSON only:
+
+Assigned path: ${path.toUpperCase()}
+Budget: $${S.budget.toLocaleString()} USD (available for trading)
+Experience: ${expLabel}
+Risk tolerance: ${riskLabel}
+Primary goal: ${goalLabel}
+Time available: ${timeLabel}
+
+Key constraints to address in the analysis:
+${path==='demo'?`- Budget is ${S.budget<300?'below the $300 minimum for rational live trading':'present but experience level makes live trading premature'}
+- No established edge or pattern recognition
+- Core objective: build skill before deploying capital`:''}${path==='real'?`- Budget of $${S.budget.toLocaleString()} supports a controlled live account
+- Experience level supports execution but psychology under live conditions is untested
+- Core objective: establish a repeatable edge with strict risk management, not profit maximisation`:''}${path==='copy'?`- Time constraint of ${timeLabel} makes active discretionary trading impractical
+- Budget of $${S.budget.toLocaleString()} is sufficient for meaningful copy allocation across multiple traders
+- Core objective: efficient capital deployment without requiring active screen time`:''}${path==='advanced'?`- Budget of $${S.budget.toLocaleString()} supports multi-instrument execution with meaningful position sizing
+- Experience level supports systematic strategies and leverage
+- Core objective: systematic, scalable execution with defined edge validation criteria`:''}
+
+Return the JSON object now.`;
+}
+
+// ─────────────────────────────────────────────────
+//  PARSE PIPELINE
+//  Stage 1 → direct parse after stripping fences
+//  Stage 2 → extract first {...} block, parse
+//  Stage 3 → extract block, repair, parse
+//  Stage 4 → repair whole string, extract, parse
+//  Falls back to mock data if all stages fail.
+// ─────────────────────────────────────────────────
+
+function stripFences(raw){
+  // Remove ```json ... ``` and ``` ... ```
+  return raw.replace(/^```(?:json)?\s*/im,'').replace(/\s*```\s*$/m,'').trim();
+}
+
+function extractBlock(str){
+  // Find first { and walk brace depth to matching }
+  const start=str.indexOf('{');
+  if(start===-1) return null;
+  let depth=0;
+  for(let i=start;i<str.length;i++){
+    if(str[i]==='{') depth++;
+    else if(str[i]==='}'){depth--;if(depth===0) return str.slice(start,i+1);}
+  }
+  return str.slice(start); // unclosed — return anyway for repair
+}
+
+function repairJson(str){
+  let s=str;
+  // 1. Remove trailing commas before } or ]
+  s=s.replace(/,(\s*[}\]])/g,'$1');
+  // 2. Detect and close unterminated string at end
+  let inStr=false;
+  for(let i=0;i<s.length;i++){
+    if(s[i]==='"'&&(i===0||s[i-1]!=='\\')) inStr=!inStr;
+  }
+  if(inStr) s+='"';
+  // 3. Close unclosed brackets/braces
+  const opens=(s.match(/\[/g)||[]).length-(s.match(/\]/g)||[]).length;
+  const braces=(s.match(/\{/g)||[]).length-(s.match(/\}/g)||[]).length;
+  for(let i=0;i<opens;i++) s+=']';
+  for(let i=0;i<braces;i++) s+='}';
+  return s;
+}
+
+// Validate and fill missing/wrong-type fields with safe defaults
+const VALID_CTA=['demo','real','copy','advanced'];
+function normalize(obj){
+  if(typeof obj!=='object'||obj===null) throw new Error('not an object');
+  const path=getPath();
+  const str=(v,fb)=>typeof v==='string'&&v.trim().length>3?v.trim():Array.isArray(v)?v.join(' '):fb;
+  const arr=(v,fb)=>Array.isArray(v)&&v.length>=2&&v.every(i=>typeof i==='string')?v.slice(0,6):typeof v==='string'&&v.trim()?v.split(/\n/).filter(l=>l.trim()):fb;
+  return{
+    profile:       str(obj.profile,       'Analysis based on your submitted profile.'),
+    recommendedPath:str(obj.recommendedPath,'Strategy recommendation unavailable.'),
+    capitalPlan:   str(obj.capitalPlan,   'Capital plan unavailable.'),
+    riskReality:   str(obj.riskReality,   'Risk analysis unavailable.'),
+    plan30Days:    arr(obj.plan30Days,    ['Week 1: Account setup.','Week 2: Study your strategy.','Week 3: Execute first trades.','Week 4: Review and iterate.']),
+    nextStep:      str(obj.nextStep,      'Open your account and take the first step today.'),
+    ctaType:       VALID_CTA.includes(obj.ctaType)?obj.ctaType:path,
+  };
+}
+
+function parseResponse(raw){
+  // Returns { data, stage, errorMsg } — never throws
+  const attempts=[
+    ()=>JSON.parse(stripFences(raw)),
+    ()=>JSON.parse(extractBlock(stripFences(raw))||'{}'),
+    ()=>JSON.parse(repairJson(extractBlock(stripFences(raw))||raw)),
+    ()=>JSON.parse(repairJson(extractBlock(repairJson(stripFences(raw)))||repairJson(raw))),
+  ];
+  for(let i=0;i<attempts.length;i++){
+    try{
+      const parsed=attempts[i]();
+      return{data:normalize(parsed),stage:i+1,errorMsg:null};
+    }catch(_){}
+  }
+  return{data:null,stage:null,errorMsg:'All parse stages failed'};
+}
+
+// ─────────────────────────────────────────────────
+//  MOCK DATA — premium, path-specific, always complete
+// ─────────────────────────────────────────────────
+function buildMock(){
+  const path=getPath();
+  const b=S.budget;
+  const bf=`$${b.toLocaleString()}`;
+
+  const mocks={
+
+    // ── BEGINNER ──────────────────────────────────
+    demo:{
+      profile:`You are a pre-deployment beginner: your ${bf} is intact, your experience is zero, and your primary asset right now is the absence of bad habits. The single constraint blocking live trading is not capital — it is the absence of a tested, repeatable edge. Every week you spend building that edge on demo is a week you are not paying for tuition with real losses.`,
+      recommendedPath:`Demo trading on EUR/USD and GBP/USD H4 charts is the strategically correct path — not a consolation prize, but the same discipline tool used by institutional training desks before a new trader handles real capital. Your target before going live is three consecutive profitable demo weeks with a minimum 1.5R average trade. Active live trading is ruled out at this stage: your statistical probability of a losing first account exceeds 75% without a pre-established edge, and losing your ${bf} early removes the option to trade at all once the skill is developed.`,
+      capitalPlan:`Your ${bf} stays in savings — zero deployment to trading right now. Open a demo account with $10,000 virtual capital: large enough to practice realistic position sizing without running out of virtual funds. When you graduate to live, your opening deposit is $100–$200 maximum. At 1% risk per trade on a $150 account, your maximum loss per position is $1.50 — sized so that 20 consecutive losses only costs you $30. That is the correct ratio for a learning phase.`,
+      riskReality:`Between 70–80% of retail traders lose money in their first six months, and the primary cause is live trading before an edge is established — not bad markets, not bad brokers. Demo trading removes the financial risk of the learning curve but not its lessons: treat every demo trade as if real money is on the line or the discipline transfer to live trading will fail. The most dangerous moment is week three on demo when results look good — that is when overconfidence triggers early live deployment. The rule: three profitable weeks minimum, no exceptions.`,
+      plan30Days:[
+        'Days 1–7: Open demo account, install and configure the platform with EUR/USD and GBP/USD on H4 and Daily timeframes. Watch the market for 30 minutes each morning without placing a single trade. Study one concept per day: candlestick structure, support and resistance, trend identification.',
+        'Days 8–14: Identify and mark every pin bar and engulfing candle formation on your two pairs. Record each one in a spreadsheet: date, pair, timeframe, result. No live or demo trades yet — the objective is pattern recognition, not execution.',
+        'Days 15–21: Begin demo trading. One setup per day maximum, only the pattern you studied. Before each trade, write: entry reason, stop level, target, and the condition that would invalidate the trade. This pre-trade discipline is non-negotiable.',
+        'Days 22–28: Continue demo execution. After each trade, score your process 1–5 independently of whether it was profitable. A bad process that wins is more dangerous than a good process that loses.',
+        'Day 29–30: Review journal. Calculate win rate, average R, and your three most frequent rule violations. If profitable across three weeks: prepare for live transition. If not: identify the single biggest flaw and repeat the cycle for two more weeks before reassessing.'
+      ],
+      nextStep:`Based on your profile, opening a demo account is the most efficient first step available to you — it gives you live market data, professional tools, and real conditions at zero cost, so you build the edge that makes real capital productive before you deploy it. Do not open a live account until you have three consecutive profitable demo weeks: the discipline you build in that window is the asset, not the account itself.`,
+      ctaType:'demo'
+    },
+
+    // ── STARTER ───────────────────────────────────
+    real:{
+      profile:`You are a funded starter with ${bf} and real market knowledge — positioned correctly for live execution, but at the stage where psychology is a larger risk factor than strategy. You have enough experience to identify setups; the question is whether you have the process discipline to execute them consistently under real-money conditions. That gap is what the next 30 days must close.`,
+      recommendedPath:`Manual live trading on H4 and Daily timeframes across EUR/USD and USD/JPY is your optimal path. Your experience level supports execution; your budget supports a meaningful but protected live account. The strategic objective for months one through six is not profit — it is establishing a repeatable, documented edge with a positive expectancy across a minimum of 50 trades. Scalping and day trading are ruled out: sub-daily timeframes amplify the psychological errors most common at the starter stage and require screen time that directly conflicts with controlled, deliberate learning. Two to four high-conviction setups per week compounds skill faster than twenty low-quality executions.`,
+      capitalPlan:`Open your live account with $${Math.min(b,Math.round(b*.6)).toLocaleString()}–$${Math.min(b,Math.round(b*.75)).toLocaleString()}, retaining $${Math.max(50,Math.round(b*.25)).toLocaleString()}–$${Math.max(100,Math.round(b*.4)).toLocaleString()} as a cash reserve outside the account. At 1.5% risk per trade on a $${Math.min(b,500).toLocaleString()} starting balance, your maximum per-trade loss is $${Math.round(Math.min(b,500)*.015).toLocaleString()}. Your daily hard stop is 3% of account balance — $${Math.round(Math.min(b,500)*.03).toLocaleString()} — and when you hit it, the platform closes for the day. This is not a guideline; it is the rule that determines whether you are still trading in month three.`,
+      riskReality:`Real-money trading exposes a psychology gap that demo cannot simulate: setups you executed without hesitation on demo become difficult to pull the trigger on live, and losing trades that would have been journalled calmly become emotionally charged. The two most common errors at starter level are moving stop-losses to avoid a loss and averaging into losing positions — both are account-killers that feel rational in the moment. Install one rule that prevents both: stops are set at entry and never moved against the position, and no second trade opens in the same direction as a losing open trade.`,
+      plan30Days:[
+        'Days 1–7: Account open and funded. Platform configured. Watchlist: EUR/USD and USD/JPY only. No trades. Study both pairs for 30 minutes per day — identify the current trend, key levels, and any active setups. Write a one-paragraph daily market note.',
+        'Days 8–14: Paper-trade every setup you identify: log the entry, stop, and target without executing. At the end of the week, calculate what your P&L would have been. This benchmark tells you whether your edge works before you commit capital to it.',
+        'Days 15–21: Go live. One trade per day maximum. Each trade requires a pre-written rationale: setup type, entry reason, stop level, target, and invalidation condition. No rationale, no trade. Journal every position including your emotional state at entry and exit.',
+        'Days 22–28: Continue live execution under the same rules. Introduce a second review: after each trade closes, score your execution quality from 1–5 independent of the outcome. A well-executed loss scores higher than a lucky winner taken outside your rules.',
+        'Days 29–30: Full month review. Calculate: win rate, average R, expectancy, and your three most frequent rule violations. If expectancy is positive across 15+ trades: hold your approach and increase review frequency. If negative: identify the single largest process flaw before trading week five.'
+      ],
+      nextStep:`Based on your profile, opening your real account today is the most direct path to building a live edge — the capital plan and 30-day structure above are your framework, and this is where they become actionable. Fund at the starting amount specified above, and spend your first three days on platform setup and market observation only: the discipline you install before your first trade defines the habits you trade with for years.`,
+      ctaType:'real'
+    },
+
+    // ── COPY ──────────────────────────────────────
+    copy:{
+      profile:`You are a capital-ready, time-constrained allocator with ${bf}. Active discretionary trading is not the wrong path because of skill — it is the wrong path because ${S.time==='low'?'1–3 hours per week':'limited weekly availability'} makes it structurally impossible to manage open positions, monitor setups, and execute with the reaction time that live trading requires. The correct decision is not to fight that constraint but to route capital through traders for whom monitoring positions is their full-time job.`,
+      recommendedPath:`Copy trading is the most efficient capital allocation available to you given your profile — and efficiency here has a precise meaning: it eliminates the systematic timing disadvantage that makes active trading with ${S.time==='low'?'1–3 hours':'limited time'} per week structurally unprofitable. A trader with ${bf} and limited weekly hours attempting discretionary forex positions faces three compounding problems: they cannot monitor entries at the right moment, cannot watch open positions, and cannot react to exit signals in time. Copy trading removes all three constraints by routing your capital through traders whose full-time job is exactly that monitoring and execution work. This is not a passive option — it is the most direct path to professional-level market participation given your time availability. Active discretionary trading is explicitly ruled out as the primary strategy until you have consistent 8+ hours of availability per week.`,
+      capitalPlan:`Allocate your ${bf} as follows: ${Math.round(b*.4).toLocaleString() === Math.round(b*.4).toString() ? `$${Math.round(b*.4).toLocaleString()}` : `$${Math.round(b*.4).toLocaleString()}`} (40%) to a conservative trend-following trader, $${Math.round(b*.4).toLocaleString()} (40%) to a balanced multi-strategy trader, and $${Math.round(b*.2).toLocaleString()} (20%) to a more active trader with higher return potential and proportionally higher drawdown risk. Keep $${Math.round(b*.12).toLocaleString()}–$${Math.round(b*.15).toLocaleString()} in cash outside the copy allocation as a liquidity buffer — not invested, accessible. Set a per-trader copy stop-loss at 20%: if any individual trader draws down $${Math.round(b*.4*.2).toLocaleString()} from peak on the conservative slot or $${Math.round(b*.2*.2).toLocaleString()} on the active slot, you exit that copy position immediately and reassess.`,
+      riskReality:`The primary failure mode in copy trading is performance chasing: selecting traders based on their headline return in the last 30–60 days without examining the conditions that produced that return. Every exceptional return month has a corresponding drawdown profile — examine the worst month in the trader's history, not the best. If their worst month would make you uncomfortable, the relationship ends at that point regardless of subsequent recovery. The second failure mode is passive neglect: copy trading is passive execution, not passive investment. You must review each trader monthly against their original selection criteria and replace any who have changed their instrument focus, increased leverage, or deviated from their documented strategy.`,
+      plan30Days:[
+        'Days 1–5: Open your copy trading account. Access the leaderboard and apply these non-negotiable filters: minimum 12 months verified history, maximum 20% total drawdown, minimum 500 completed trades, active in the past 30 days. This filter eliminates 80–90% of profiles. Save your shortlist of 5–8 candidates.',
+        'Days 6–10: Analyse each shortlisted trader in depth. For each: identify their worst month by equity curve, calculate their average monthly return vs. max drawdown ratio, note their instrument focus and trading frequency, and determine whether their strategy is still active in current market conditions. Rank your top three.',
+        'Days 11–17: Begin copying your top three traders with 50% of your intended allocation — $${Math.round(b*.2).toLocaleString()}, $${Math.round(b*.2).toLocaleString()}, and $${Math.round(b*.1).toLocaleString()} respectively. Set your copy stop-losses. This partial allocation validates live execution before full commitment.',
+        'Days 18–25: Scale to full allocation if each trader is performing within their documented parameters. Your complete allocation: $${Math.round(b*.4).toLocaleString()} / $${Math.round(b*.4).toLocaleString()} / $${Math.round(b*.2).toLocaleString()}. Note: do not increase allocation to a trader because they had a good first week — follow the plan.',
+        'Day 26–30: Set your 30-day calendar review now. On day 30, assess each trader against the original selection criteria. Replace any trader who: has increased leverage vs. their historical average, has changed primary instrument, or has not recovered from a drawdown that exceeded your stop-loss threshold.'
+      ],
+      nextStep:`Based on your profile, this is the most efficient path to market participation available to you — the recommended setup gives you professional-level execution and real market exposure without the screen-time requirement that active trading demands. Open your copy trading account and apply the selection filters above before committing any capital: the quality of your trader selection at this stage determines the majority of your outcome.`,
+      ctaType:'copy'
+    },
+
+    // ── ADVANCED ──────────────────────────────────
+    advanced:{
+      profile:`You are a capitalised, experienced trader with ${bf}, high risk tolerance, and the technical foundation for systematic multi-instrument execution. At this level the limiting factor is not knowledge or capital — it is process discipline and edge validation. The traders who plateau at advanced level are those who trade experience as a substitute for documented process; the ones who scale are those who treat their trading operation as a system with measurable inputs and outputs.`,
+      recommendedPath:`Multi-timeframe systematic execution across 4–6 instruments is your framework: Daily chart for directional bias, H4 for entry timing, with written entry criteria and automated exit management via take-profit and trailing stops. The instruments: major forex pairs for core positions, XAUUSD and US30 for correlation diversification. Manual position management is ruled out for take-profit levels — the data is unambiguous that traders at every level extract less value from winners when exits are discretionary. Position sizing scales from your validated expectancy, not from conviction on any individual trade.`,
+      capitalPlan:`With ${bf}, your per-trade risk is $${Math.round(b*.025).toLocaleString()}–$${Math.round(b*.03).toLocaleString()} (2.5–3% of account). Maximum simultaneous open exposure is 6% of account — $${Math.round(b*.06).toLocaleString()} — across all open positions combined. Your daily hard stop is $${Math.round(b*.06).toLocaleString()}: breach it and all positions are closed for the calendar day, no exceptions and no override authority. Position size increases only after a 50-trade reviewed expectancy confirmation — not before, regardless of a winning streak. Cash reserve: keep $${Math.round(b*.1).toLocaleString()}–$${Math.round(b*.15).toLocaleString()} outside the trading account at all times as undeployed capital.`,
+      riskReality:`The specific failure mode for your profile is edge expiry combined with position size creep. Experienced traders often increase size at the exact moment their edge is weakening — the winning streak that precedes the drawdown feels like confirmation of skill rather than variance. The diagnostic: if your win rate or expectancy drops more than 15% over any rolling 50-trade window, trading stops immediately for a strategic review, not a pause. The second risk is the loss that feels personal: when a losing trade triggers a specific emotional response rather than a statistical one, your position size is too large for your actual psychology. Reduce to 1% until the neutrality returns.`,
+      plan30Days:[
+        'Days 1–5: Full execution environment setup. Platform configured with your 4–6 instrument watchlist. Alerts set for Daily closes. Trading rules document written and signed off: entry criteria, stop placement methodology, take-profit logic, position sizing formula, daily loss stop, and the conditions that trigger a strategy review. No trades until this document exists.',
+        'Days 6–12: Backtest your primary setup across the last 6 months of data on your two core pairs. Calculate: total signals, win rate, average winner, average loser, expectancy (average R), and maximum consecutive losing run. If expectancy is below 0.4R, adjust the setup before live deployment. If above 0.4R, proceed to the next phase.',
+        'Days 13–20: Live execution begins under full rules. Maximum 2 concurrent open positions initially. Score every trade entry on a 1–5 execution quality scale after the trade closes — independent of outcome. A well-executed loss is a 5. A lucky winner taken outside criteria is a 1. This scoring system is your primary performance metric for month one, not P&L.',
+        'Days 21–27: Open to full position limit of concurrent positions as documented in your rules. Continue trade scoring. If daily loss stop is hit on any day, do not trade for the remaining 24 hours — treat it as a mandatory cool-down, not a punishment.',
+        'Days 28–30: 30-trade review. Calculate live expectancy and compare to backtest. If within 20%: system is functioning, continue. If divergence exceeds 20%: identify the cause before week five — market regime change, execution error, or underfitting in the backtest are the three most likely causes.'
+      ],
+      nextStep:`Based on your profile, the advanced setup gives you the full instrument suite, leverage structure, and execution environment your strategy requires — open your account and write your trading rules document before placing any position, because a documented system you can review against reality is what separates scalable trading from sophisticated guesswork. Do not begin live execution until your backtested expectancy across 3 months of data exceeds 0.4R.`,
+      ctaType:'advanced'
+    }
+  };
+
+  return mocks[path]||mocks.real;
+}
+
+// ─────────────────────────────────────────────────
+//  LOADING ANIMATION
+// ─────────────────────────────────────────────────
+const LOAD_IDS=['l1','l2','l3','l4','l5'];
+const TYPING_MSGS=['Reading your capital constraints…','Selecting the right path…','Calculating risk parameters…','Building your capital plan…','Drafting your 30-day actions…','Finalising your recommendation…'];
+let _lt,_tt;
+
+function startLoading(){
+  LOAD_IDS.forEach(id=>{
+    const el=document.getElementById(id);
+    el.classList.remove('on','done');
+    const ico=el.querySelector('.lstep-ico,.spin');
+    if(ico){ico.className='lstep-ico';ico.textContent='◦';}
+  });
+  let i=0;
+  const step=()=>{
+    if(i>0){
+      const prev=document.getElementById(LOAD_IDS[i-1]);
+      prev.classList.remove('on');prev.classList.add('done');
+      const ico=prev.querySelector('.lstep-ico,.spin');
+      if(ico){ico.className='lstep-ico';ico.textContent='✓';}
+    }
+    if(i<LOAD_IDS.length){
+      const cur=document.getElementById(LOAD_IDS[i]);
+      cur.classList.add('on');
+      const ico=cur.querySelector('.lstep-ico');
+      if(ico){const s=document.createElement('div');s.className='spin';ico.replaceWith(s);}
+      i++;_lt=setTimeout(step,900);
+    }
+  };
+  step();
+}
+
+function startTyping(){
+  let i=0;
+  const tick=()=>{
+    const el=document.getElementById('at');
+    if(!el) return;
+    el.innerHTML=`${TYPING_MSGS[i%TYPING_MSGS.length]}<span class="cursor"></span>`;
+    i++;_tt=setTimeout(tick,1800);
+  };
+  tick();
+}
+
+function stopAll(){clearTimeout(_lt);clearTimeout(_tt);}
+
+// ─────────────────────────────────────────────────
+//  ANALYZE — main entry point
+// ─────────────────────────────────────────────────
+async function analyze(){
+  ['es','rs'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('ls').style.display='block';
+  document.getElementById('abtn').disabled=true;
+  startLoading(); startTyping();
+
+  let finalData=null;
+  let isMock=false;
+  let parseStage=null;
+  let apiErr=null;
+
+  try{
+    const res=await fetch('/api/analyze',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        budget:S.budget,
+        exp:S.exp,
+        risk:S.risk,
+        goal:S.goal,
+        time:S.time
+      })
+    });
+
+    const json=await res.json();
+
+    if(json.success===true){
+      finalData=json.data;
+      parseStage='server';
+    } else {
+      throw new Error(json.error||'Server error');
+    }
+
+  } catch(err){
+    isMock=true;
+    apiErr=err.message;
+    finalData=buildMock();
+  }
+
+  stopAll();
+  await new Promise(r=>setTimeout(r,300));
+
+  document.getElementById('ls').style.display='none';
+  renderResults(finalData,{isMock,parseStage,apiErr});
+  document.getElementById('abtn').disabled=false;
+}
+
+// ─────────────────────────────────────────────────
+//  RENDER
+// ─────────────────────────────────────────────────
+// ── AFFILIATE LINKS — edit here only ──────────────
+const XM_LINK_REAL = "https://clicks.pipaffiliates.com/c?c=1193230&l=it&p=1";
+const XM_LINK_COPY = "https://clicks.pipaffiliates.com/c?c=1193230&l=it&p=3901";
+const XM_LINK_DEMO = "https://clicks.pipaffiliates.com/c?c=1193230&l=it&p=5";
+const XM_LINK_MT5  = "https://clicks.pipaffiliates.com/c?c=1193230&l=it&p=20";
+// ──────────────────────────────────────────────────
+
+const CTA_CFG={
+  demo:{
+    reasoning:`Your capital is better protected in savings right now. A demo account gives you live market data and full platform access at no cost — which means you build the pattern recognition and discipline you need before any real money is on the line.`,
+    buttons:[
+      {l:'Open a Risk-Free Demo Account', h:XM_LINK_DEMO, p:true}
+    ]
+  },
+  real:{
+    reasoning:`Your experience level and available capital support a live account. The capital plan above defines how much to deposit, how much to risk per trade, and when to stop for the day. That structure is what keeps small losses from becoming large ones.`,
+    buttons:[
+      {l:'Open Your Trading Account',        h:XM_LINK_REAL, p:true},
+      {l:'Set Up MetaTrader 5',              h:XM_LINK_MT5,  p:false}
+    ]
+  },
+  copy:{
+    reasoning:`With your capital and available time, copy trading is the most practical way to participate in the market. You're not delegating decisions — you're allocating to traders whose full-time job is the active management your schedule doesn't allow for.`,
+    buttons:[
+      {l:'Start with the Recommended Setup', h:XM_LINK_COPY, p:true},
+      {l:'Open a Standard Account',          h:XM_LINK_REAL, p:false}
+    ]
+  },
+  advanced:{
+    reasoning:`Your capital and experience level support the full instrument suite and leverage structure. The next step is account setup and a written rules document — not because it's formality, but because having written rules is the single difference between reviewing a trade and rationalising one.`,
+    buttons:[
+      {l:'Open Your Trading Account',   h:XM_LINK_REAL, p:true},
+      {l:'Set Up MetaTrader 5',         h:XM_LINK_MT5,  p:false}
+    ]
+  }
+};
+const BADGES={
+  demo:    {label:'Beginner path — demo first',  bg:'rgba(46,196,182,.08)',  color:'#2EC4B6', border:'rgba(46,196,182,.2)'},
+  real:    {label:'Active trading path',         bg:'rgba(11,110,79,.09)',   color:'#4db88a', border:'rgba(11,110,79,.2)'},
+  copy:    {label:'Copy trading path',           bg:'rgba(46,196,182,.08)',  color:'#2EC4B6', border:'rgba(46,196,182,.2)'},
+  advanced:{label:'Advanced execution path',     bg:'rgba(11,110,79,.1)',    color:'#6dd4a0', border:'rgba(11,110,79,.24)'}
+};
+const CARDS=[
+  {tag:'Profile',        icon:'◉', bg:'rgba(11,110,79,.12)',   key:'profile'},
+  {tag:'Strategy',       icon:'◈', bg:'rgba(46,196,182,.1)',   key:'recommendedPath'},
+  {tag:'Capital plan',   icon:'◇', bg:'rgba(11,110,79,.1)',    key:'capitalPlan'},
+  {tag:'Risk',           icon:'△', bg:'rgba(217,119,6,.1)',    key:'riskReality'},
+  {tag:'30-day plan',    icon:'▷', bg:'rgba(46,196,182,.08)',  key:'plan30Days',list:true},
+  {tag:'First step',     icon:'→', bg:'rgba(11,110,79,.12)',   key:'nextStep',cta:true}
+];
+const TITLES={
+  profile:'Your trader profile',
+  recommendedPath:'Recommended approach',
+  capitalPlan:'Capital structure',
+  riskReality:'Risk reality',
+  plan30Days:'First 30 days',
+  nextStep:'Where to start'
+};
+
+function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderResults(data,{isMock=false,parseStage=null,apiErr=null}={}){
+  const ct=data.ctaType||getPath();
+  const badge=BADGES[ct]||BADGES.real;
+  const ctaCfg=CTA_CFG[ct]||CTA_CFG.real;
+  const container=document.getElementById('rs');
+  container.style.display='block';
+
+  // Update model indicator
+  const mdl=document.getElementById('tb-model');
+  mdl.textContent=isMock?'sample · offline':'assessment complete';
+  mdl.style.color=isMock?'var(--amber)':'rgba(232,245,240,.4)';
+
+  let html='';
+
+  // Non-blocking mock warning
+  if(isMock){
+    const shortErr=apiErr?` (${e(apiErr.slice(0,70))})`:' (service offline)';
+    html+=`<div class="banner banner-mock"><span class="banner-ico">⚠</span><span>Live assessment unavailable${shortErr}. Showing a sample recommendation built from your profile — all guidance reflects your actual inputs.</span></div>`;
+  }
+  // Non-blocking recovery note
+  if(!isMock&&parseStage&&parseStage>1){
+    html+=`<div class="banner banner-info"><span class="banner-ico">ℹ</span><span>Response validated after repair (stage ${parseStage}/4). Analysis integrity confirmed.</span></div>`;
+  }
+
+  html+=`<div class="r-header">
+    <div class="r-badge" style="background:${badge.bg};color:${badge.color};border:1px solid ${badge.border}">${badge.label}</div>
+    <h2 class="r-title">Your trading assessment</h2>
+    <p class="r-sub">${e(data.profile)}</p>
+    <div class="r-source"><div class="r-source-dot" style="background:${isMock?'var(--amber)':'var(--aqua)'}"></div>${isMock?'Sample · built from your profile inputs':'Assessment complete · referenced to your inputs'}</div>
+  </div><div class="cards">`;
+
+  CARDS.forEach((meta,i)=>{
+    const delay=`transition-delay:${i*.07}s`;
+    const headHtml=`<div style="display:flex;align-items:center;gap:9px"><div class="card-ico" style="background:${meta.bg}">${meta.icon}</div><div class="card-title" style="margin-bottom:0">${TITLES[meta.key]}</div></div><div class="card-tag">${meta.tag}</div>`;
+    if(meta.cta){
+      const btns=ctaCfg.buttons.map(b=>b.p
+        ?`<a href="${b.h}" target="_blank" rel="noopener noreferrer" class="cta-main">${e(b.l)}</a>`
+        :`<a href="${b.h}" target="_blank" rel="noopener noreferrer" class="cta-sec">${e(b.l)}</a>`
+      ).join('');
+      const reasoning=ctaCfg.reasoning
+        ?`<div class="cta-reasoning"><span class="cta-reasoning-label">Why this is the right next step</span>${e(ctaCfg.reasoning)}</div>`
+        :'';
+      html+=`<div class="card cta-card" id="rc${i}" style="${delay}">
+        <div class="card-head">${headHtml}</div>
+        <div class="card-body">${e(data.nextStep||'')}</div>
+        ${reasoning}
+        <div class="cta-btns">${btns}</div></div>`;
+    } else if(meta.list){
+      const items=(Array.isArray(data.plan30Days)?data.plan30Days:[]).map(it=>`<div class="cli"><div class="cld"></div><span>${e(it)}</span></div>`).join('');
+      html+=`<div class="card" id="rc${i}" style="${delay}">
+        <div class="card-head">${headHtml}</div>
+        <div class="card-list">${items}</div></div>`;
+    } else {
+      const raw=String(data[meta.key]||'');
+      // Split at first sentence boundary to bold the lead sentence
+      const firstStop=raw.search(/[.!?]\s+[A-Z]/);
+      const lead=firstStop>0?raw.slice(0,firstStop+1):'';
+      const rest=firstStop>0?raw.slice(firstStop+1).trim():raw;
+      const bodyHtml=lead
+        ?`<span class="card-body-lead">${e(lead)}</span>${e(rest)}`
+        :e(raw);
+      html+=`<div class="card" id="rc${i}" style="${delay}">
+        <div class="card-head">${headHtml}</div>
+        <div class="card-body">${bodyHtml}</div></div>`;
+    }
+  });
+
+  html+='</div>';
+  container.innerHTML=html;
+
+  // Sequenced reveal: header → cards with 110ms stagger → list items within each card
+  requestAnimationFrame(()=>{
+    // 1. Header fades in first
+    const header=container.querySelector('.r-header');
+    if(header) setTimeout(()=>header.classList.add('vis'),30);
+
+    // 2. Cards reveal with a deliberate, AI-feel stagger
+    container.querySelectorAll('.card').forEach((c,i)=>{
+      const delay=i*110+160; // 160ms base offset after header, 110ms between each card
+      setTimeout(()=>{
+        c.classList.add('vis');
+        // 3. Within the 30-day plan card, stagger list items
+        c.querySelectorAll('.cli').forEach((li,j)=>{
+          setTimeout(()=>li.classList.add('vis'),j*55+70);
+        });
+      },delay);
+    });
+  });
+
+  if(window.innerWidth<1060) container.scrollIntoView({behavior:'smooth'});
+}
+
+// ─────────────────────────────────────────────────
+//  SCROLL REVEAL — triggered slightly before elements enter viewport
+// ─────────────────────────────────────────────────
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);}});
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
