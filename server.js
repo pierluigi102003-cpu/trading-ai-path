@@ -381,7 +381,7 @@ app.post("/api/analyze", async (req, res) => {
         "content-type":      "application/json",
       },
       body: JSON.stringify({
-       :      "claude-sonnet-4-6",
+      model: "claude-sonnet-4-6",
         max_tokens: 1400,
         system:     system,
         messages:   [{ role: "user", content: userMsg }],
